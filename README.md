@@ -33,12 +33,13 @@ Workflows
 		define startTime/endTime, or dailey/hourly, or cron-style for incremental data generation
 		 
 Dev or Run Services
-  1, dev
+
+	1, dev
   		git clone this repository
   		Eclipse import this maven project
   		docker-compose up
   		run service with spring-boot:run in Eclipse
-  2, deploy
+	2, deploy
   		package project using maven commad as below
   		   mvn clean install -DskipTests
   		manually build docker image in folder src/ (Dockerfile) 
@@ -47,5 +48,6 @@ Dev or Run Services
   		   docker-compose -y docker-compose.yml -y docker-compose.override.xml -y docker-compose.nrdata up
   		   
 Configuration and logs
-  -- application.yml
-  -- logs can found in /var/log/rnctech/  		   
+
+	-- application.yml
+	-- logs can found in /var/log/rnctech/  		   
