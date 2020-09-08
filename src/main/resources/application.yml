@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  servlet:
+    contextPath: /nrdata
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: Admin123
+    database: 0
+    timeout: 600
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/nrdata
+    username: postgres
+    password: Admin123!
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    root: INFO
+    com.rnctech.nrdata: DEBUG
+    org.springframework: INFO
+    org.hibernate: INFO

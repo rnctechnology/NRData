@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  rnctech.nrdata:
+    image: rnctech/nrdata:1.0.0
+    container_name: nrdata
+    command: bash -c "../wait-for-it.sh  -s -t 120 spostgres:5432
+		 -- ../wait-for-it.sh  -s -t 120 redis:6379 
+	     -- java -jar nrdata.jar"
+    
+    build: .
+      
+    environment:
+      postgres__conn: User ID=postgres;Password=Admin123;Host=postgres;Port=5432;Database=nrdata;
+      rabbitmq__conn: host=rabbitmq:5672;username=test;password=test
+      Redis__conn: host=redis:6379;password=Admin123
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "8080:8080"
+    logging:
+      driver: "json-file"

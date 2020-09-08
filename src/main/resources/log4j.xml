@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"
+	debug="true">
+
+	<appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} | %p | %X{tenant} | %c{40} | %t | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="rnctechLogFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="/var/log/rnctech/nrdata-logs.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} | %p | %X{tenant} | %X{jobid} |%c{40} | %t | %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="rnctechhibernateLogFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="/var/log/rnctech/nrdata-hibernate-logs.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} | %p | %c{40} | %t | %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="rnctechspringLogFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="/var/log/rnctech/nrdata-spring-logs.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} | %p | %c{40} | %t | %m%n" />
+		</layout>
+	</appender>
+	
+	<!--
+	 <appender name="dailyFilebeatAppender" class="org.apache.log4j.RollingFileAppender">
+    	<param name="append" value="true" />
+    	<param name="encoding" value="UTF-8" />
+	    <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+	        <param name="FileNamePattern" value="/var/log/rnctech/nrdata.%d.log" />
+	    </rollingPolicy>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} | %p | %c{40} | %t | %m%n" />
+			<param name="ConversionPattern" value="%d{ISO8601} %p %c{40}:%L %t - %m%n" />
+			<param name="ConversionPattern" value="%d{YYYY-MM-dd HH:mm:ss,SSSZ} %p %c{1}:%L - %m%n" />
+		</layout>	
+	</appender>
+	-->
+	
+	<!-- 
+	<appender name="logstash-socket-appernder" class="org.apache.log4j.net.SocketAppender">
+        <param name="RemoteHost" value="10.0.1.104"/>
+        <param name="Port" value="9200"/>
+        <param name="ReconnectionDelay" value="60000"/>
+        <param name="Threshold" value="INFO"/>
+    </appender>
+    <logger name="logstash-socket">
+        <level value="info"/>
+        <appender-ref ref="logstash-socket-appernder"/>
+    </logger>
+	-->
+	<logger name="org.spring.security">
+		<level value="INFO" />
+		<appender-ref ref="rnctechspringLogFileAppender" />
+	</logger>
+	
+	<logger name="org.hibernate">
+		<level value="INFO" />
+		<appender-ref ref="rnctechhibernateLogFileAppender" />
+	</logger>
+
+	<logger name="com.rnctech">
+		<level value="DEBUG" />
+		<appender-ref ref="rnctechLogFileAppender" />
+	</logger>
+	<!-- 
+	<logger name="com.rnctech">
+		<level value="DEBUG" />
+		<appender-ref ref="dailyFilebeatAppender" />
+	</logger>
+	-->
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</log4j:configuration>
