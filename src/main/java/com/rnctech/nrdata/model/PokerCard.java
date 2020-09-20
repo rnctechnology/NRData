@@ -1,9 +1,10 @@
 package com.rnctech.nrdata.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PokerCard implements Comparable {	
+public class PokerCard implements Comparable, Serializable {	
 	
     public static final char[] RANKS = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'D', 'J', 'Q', 'K'};     
     public static final char[] SUITS = {'♠','♥', '♦', '♣'}; 

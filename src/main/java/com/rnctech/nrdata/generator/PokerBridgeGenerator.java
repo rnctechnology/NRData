@@ -37,7 +37,7 @@ public class PokerBridgeGenerator {
         }
     }
 	
-	static int[] deal() {
+	public static int[] deal() {
 		int[] cards = new int[52];
 		Random r = new Random(shuff());
 		List<Integer> l = new ArrayList<>();
@@ -67,7 +67,7 @@ public class PokerBridgeGenerator {
 		return (int)Math.ceil(Math.random() * 1000);
 	}
 	
-	static Map<String, Set<PokerCard>> getFourHands(int[] cards){
+	public static Map<String, Set<PokerCard>> getFourHands(int[] cards){
 		//init a deck
 		List<PokerCard> deck = new ArrayList<>();
 		for(int i=0; i<RANKS.length; i++) {
