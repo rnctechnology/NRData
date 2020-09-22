@@ -29,6 +29,19 @@ public class PokerCard implements Comparable, Serializable {
     	return stot.get(suit);
     }
     
+    public int getPoint() {
+    	if(this.rank == 'A')
+    		return 4;
+    	else if(this.rank == 'K')
+    		return 3;
+    	else if(this.rank == 'Q')
+    		return 2;
+    	else if(this.rank == 'J')
+    		return 1;
+    	
+    	return 0;
+    }
+    
 	public PokerCard(char rank, char suit) {
 		this.rank = rank;
 		this.suit = suit;

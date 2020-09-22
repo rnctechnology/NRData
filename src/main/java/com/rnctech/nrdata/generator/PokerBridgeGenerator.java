@@ -1,8 +1,6 @@
 package com.rnctech.nrdata.generator;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,7 +83,7 @@ public class PokerBridgeGenerator {
 
 		int h=0;		
 		for(int i = 0; i<52; i++) {
-			h = i / 13;
+			h = i%4;    // i/13;
 			PokerCard card = deck.get(cards[i]-1);
 			allhands.get(hands[h]).add(card);
 		}		
@@ -133,9 +131,9 @@ public class PokerBridgeGenerator {
 		Map<String, Set<PokerCard>> hands = getFourHands(cs);
 		for(Map.Entry<String, Set<PokerCard>> entry: hands.entrySet()) {
 			System.out.print(entry.getKey()+":\t");
-			entry.getValue().stream().forEach(c -> System.out.print(c.label+" "));
-			
-			System.out.println("\t"+entry.getValue().size()+"\n");
+			entry.getValue().stream().forEach(c -> System.out.print(c.label+" "));			
+			int points = entry.getValue().stream().mapToInt(o->o.getPoint()).sum();			
+			System.out.println("\t"+entry.getValue().size()+" : "+points+"\n");
 		}
 		
 	}
