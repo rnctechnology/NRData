@@ -1,0 +1,282 @@
+# those are system columns for database tracking createdById,  lastModifiedById,  createdDate,  lastModifiedDate
+# isDeleted: Boolean, designed for soft_delete_flag for the record, -- system column, all queries should add where clause
+# as " and isDeteted is not null" for normal data retrieve
+
+# designed by zilin @ 2020.09.24
+
+type Account @model {
+  id: ID!
+  name: String! @index
+  UserType: String
+  industry: String
+  description: Text
+  webSite: Text
+  address: Address
+  phone: Phone
+  annualRevenue: Currency
+  numberOfEmployees: Number
+  ownership: String
+  relatedUsers: [User] @relation(name: "UserRelation")
+  relatedOpportunities: [Opportunity] @relation(name: "accountOpportunitiesRelation")
+  relatedAccountActivites: [AccountActivity] @relation(name: "accountActivityRelation")
+  parentId: Text
+  accountNumber: Text
+  yearStarted: Text
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+type User @model {
+  id: ID!
+  firstName: String
+  lastName: String
+  userName: Text
+  salutation: Text
+  company: Text
+  division: Text
+  title: String
+  department: String
+  account: Account @relation(name: "UserRelation", foreignKey: "accountId")
+  email: Email @index(name:"Users_email", order:0, unique:true) @index(name:"User_email_externalId_idx", order:0)
+  mobilePhone: Phone
+  officePhone: Phone
+  lastLoginDate: Date
+  userId: ID
+  userRole: String
+  isActive: Boolean
+  street: Text
+  city: Text
+  state: Text
+  postalCode: Text
+  country: Text
+  latitude: Text
+  longitude: Text
+  address: Text
+  webSite: Text
+  description: Text
+  birthDate: Date
+  signature: Text
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean  
+}
+
+type Opportunity @model {
+  id: ID!
+  name: String
+  account: Account @relation(name: "accountOpportunitiesRelation", foreignKey: "accountId") @index(name:"opportunities_accountid_closedate_isclosed_index", order:0)
+  type: String
+  stage: String 
+  amount: Currency @editable
+  closeDate: Date @index(name:"opportunities_accountid_closedate_isclosed_index", order:1) @editable
+  isClosed: Boolean @index(name:"opportunities_accountid_closedate_isclosed_index", order:2)
+  isActive: Boolean
+  revenueType: String
+  description: Text
+  startDate: Date @index(name:"opportunity_start_date", order:0)
+  endDate: Date
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+type Activity @model {
+  id: ID!
+  owner: User @relation(name: "activityOwner", foreignKey: "userId")
+  type: String
+  activityDate: Datetime! @index(name:"Index_ByDate", order:1)
+  subject: Text
+  topic: Text
+  threadIndex: String
+  email: String
+  parent: Activity @relation(name: "parentActivity", foreignKey: "parentId") @index
+  description: Text
+  startTime: Datetime
+  endTime: Datetime
+  priority: Number
+  importance: Number
+  location: String
+  sequence: Number
+  status: String
+  isRecurring: Boolean
+  duration: Duration
+  isPrivate: Boolean
+  hostId: Text
+  joinUrl: Text
+  hasRecording: Boolean
+  dialInNumber: Text
+  timeZone: Text
+  participants: Number
+  preview: Text
+  storagePath: Text
+  activityContent: ActivityContent @relation(name: "activityContentActivityRelation", foreignKey: "activityContentId")
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean  
+}
+
+type ActivityContent @model {
+  id: ID!
+  relatedActivities: [Activity] @relation(name: "activityContentActivityRelation")
+  uniqueBody: Text
+  recordingStart: Date
+  recordingEnd: Date
+  fileType: Text
+  fileSize: Text
+  createdBy: Text
+  meetingUuid: Text
+  shareUrl: Text
+  downloadUrl: Text
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean  
+}
+
+type ActivityUser @model {
+  id: ID!
+  relatedActivities: [Activity] @relation(name: "activityParticipantActivityRelation")
+  userId: String @index(name:"ma_participant_unique", order:1, unique:true)
+  userName: Text
+  meetingId: Text
+  meetingUuid: String @index(name:"ma_participant_unique", order:0, unique:true)
+  joinTime: Date @index(name:"ma_participant_unique", order:2, unique:true)
+  leaveTime: Date
+  shareWhiteboard: Boolean
+  shareDesktop: Boolean
+  recording: Boolean
+  domain: Text
+  device: Text
+  location: Text
+  ipAddress: Text
+  leaveReason: Text
+  duration: Text
+  role: Text
+  status: Text
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+type AccountActivity @model {
+  id: ID!
+  activity: Activity @relation(name:"activityActivityRelation", foreignKey: "activityId") @index(sort:"desc") @index(name:"Index_AccountActivities__AccountID_ActivityId", order:1)
+  activityCreatedDate: Datetime @index(name:"accountactivities_accountid_activitycreateddate_index", order:1, sort:"desc")
+  account: Account @relation(name:"accountActivityRelation", foreignKey: "accountId") @index(name:"accountactivities_accountid_activitycreateddate_index", order:0) @index(sort:"desc") @index(name:"Index_AccountActivities__AccountID_ActivityId", order:0)
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+type Product @model {
+  id: ID!
+  name: Text
+  productCode: Text
+  description: Text
+  category: Text
+  subCategory: Text
+  price: Number
+  brand: Text
+  produceDate: Date
+  expireDate: Date
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+
+
+type Ticket @model {
+  id: ID!
+  subject: Text
+  type: Text
+  description: Text
+  priority: Text
+  status: Text
+  accountId: Text
+  source: Text
+  isClosed: Boolean
+  organization: Text
+  product: Text
+  reason: Text
+  origin: Text
+  requester: User @relation(name: "ticketRequester", foreignKey: "userId")
+  ownerId: User @relation(name: "ticketOwner", foreignKey: "userId")
+  rating: Text
+  updatedDate: Date
+  closedDate: Date
+  commentCount: Number @defaultTo(value: -1)
+  comments: [Comment] @relation(name: "CommentTicketRelation")
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean  
+}
+
+type Comment @model {
+  id: ID!
+  type: Text!
+  order: Number
+  body: Text
+  path: Text
+  createdBy: User @relation(name: "commentOwner", foreignKey: "userId")
+  createdDate: Date
+  updatedDate: Date
+  lastModifiedDate: Date
+  ticket: Ticket @relation(name:"CommentTicketRelation", foreignKey: "ticketId" )
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean  
+}
+
+type Email @model {
+  id: ID!
+  name: String! @index(name:"Email_name_idx", unique:true, order:0)
+  domain: Domain @relation(name:"emailDomainRelation", foreignKey: "domainName" )
+  tos: Text
+  cced: Text
+  readableName: String
+  content: Text
+  subject: Text
+  purpose: String
+  signature: Text
+  emailDate: Date
+  category: Text  
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}
+
+type Domain @model {
+  id: ID!
+  name: Text
+  account: Account @relation(name: "domainAccountRelation", foreignKey: "accountId")
+  isActive: Boolean!
+  domainType: Text
+  createdById: ID
+  lastModifiedById: ID
+  createdDate: Date
+  lastModifiedDate: Date
+  isDeleted: Boolean
+}

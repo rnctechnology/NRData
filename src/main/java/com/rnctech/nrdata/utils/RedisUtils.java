@@ -5,6 +5,9 @@ package com.rnctech.nrdata.utils;
 */
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +16,7 @@ import com.rnctech.nrdata.model.Person.Gender;
 import com.rnctech.nrdata.utils.RedisUtils.OBJ_TYPE;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 
 public class RedisUtils {
 	
@@ -39,6 +43,21 @@ public class RedisUtils {
 		redis.auth("Admin123");
 		//Jedis redis = new Jedis();
 		return redis;
+	}
+
+	public static void putFileInRedisPipeline(OBJ_TYPE type, String csvfile) throws Exception {
+		Jedis connection = getJedisInstnace();
+		List<String> lines = Files.readAllLines(Paths.get(csvfile), Charset.forName("UTF-8"));
+
+		Pipeline p = connection.pipelined();
+		int i = 1;
+		for (String line : lines) {
+			String key = type.name() + "/" + i;
+			p.set(key, line);
+			i++;
+		}
+		p.sync();
+
 	}
 	
 	public static void putFileToRedis(OBJ_TYPE type, String csvfile) throws Exception {
