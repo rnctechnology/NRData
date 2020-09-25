@@ -10,6 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+/*
+ * @contributor zilin
+ * 2020.09.24
+ * 
+ * handle logged user
+ */
+
 @Service
 public class AuthService {
 
@@ -51,6 +58,11 @@ public class AuthService {
 	private String validateToken(String token) {
 		//oauth or jwt
 		return "pass";
+	}
+
+	public String getLoggedUser() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
