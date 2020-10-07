@@ -11,6 +11,7 @@ import org.springframework.http.converter.BufferedImageHttpMessageConverter;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
@@ -24,13 +25,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		super.addDefaultHttpMessageConverters(getMessageConverters());
 		converters.add(createImageHttpMessageConverter());
 		converters.add(byteArrayHttpMessageConverter());
 	}
+
 
 	@Bean
 	public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {

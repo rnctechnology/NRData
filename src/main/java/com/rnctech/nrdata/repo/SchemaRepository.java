@@ -14,6 +14,6 @@ import org.springframework.data.jpa.repository.Query;
 @Transactional
 public interface SchemaRepository extends JpaRepository<Schema,  Long> {
 	  
-	  public Iterable<Schema> findByJob(User user);
+	  public Iterable<Schema> findByUser(User user);
 	  
 }

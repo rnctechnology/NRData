@@ -35,10 +35,6 @@ public class Job extends JobBase {
 	private Set<JobDetail> jobdetails = new HashSet<>(0);
 	
 	
-    @OneToOne(mappedBy = "job", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = true)
-  	
-	
 	  @Column(name = "jobname")
 	  String jobname;
 	 

@@ -17,7 +17,7 @@ public interface JobDetailRepository extends JpaRepository<JobDetail,  Long> {
 	  @Query("SELECT jd FROM JobDetail jd WHERE LOWER(jd.jobType) = LOWER(:jobType) AND jd.job.id = :jobid")
 	  public JobDetail findByTypeAndJobid(@Param("jobType") String jobtype, @Param("jobid") Long jobid);
 	  
-	  public List<JobDetail> findBySession(String sessionid);
+	  public List<JobDetail> findBySessionid(String sessionid);
 	  
 	  public Iterable<JobDetail> findByJob(Job job);
 	  

@@ -117,7 +117,12 @@
 		    <groupId>com.graphql-java</groupId>
 		    <artifactId>graphql-java-tools</artifactId>
 		    <version>5.2.4</version>
-		</dependency>		
+		</dependency>
+    	<dependency>
+        	<groupId>org.codehaus.jackson</groupId>
+        	<artifactId>jackson-mapper-asl</artifactId>
+        	<version>1.9.13</version>
+        </dependency>			
 		<dependency>
 		    <groupId>net.sourceforge.barbecue</groupId>
 		    <artifactId>barbecue</artifactId>

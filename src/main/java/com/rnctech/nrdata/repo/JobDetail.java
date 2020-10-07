@@ -49,7 +49,7 @@ public class JobDetail extends JobBase {
 	String description;
 
 	@Lob
-	@Column(name = "zips", columnDefinition = "BLOB")  //in case of snapshot, images
+	@Column(name = "zips")  //in case of snapshot, images
 	private byte[] zips;
 
 	public Job getJob() {

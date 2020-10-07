@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -26,9 +27,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.RandomUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
 import com.rnctech.nrdata.NrdataConstants;
 import com.rnctech.nrdata.NrdataConstants.GENERATE_TYPE;
@@ -53,20 +60,27 @@ public class DBDataFactory {
 	@Autowired
 	GeneralDataService dataGenService;
 	
-	static{
-		try {
-			comap.load(new FileInputStream(new File("ColumnDefine.properties")));		    
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		variations =  DataUtils.getKeyValues(comap, "variation.", false);
-		
-		try {
-			totalrowGenerated = Integer.parseInt((String)comap.get("totalrow"));
-		} catch (NumberFormatException e) {
-		}
-	}
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(DBDataFactory.class.getName());
+
+    @PostConstruct
+    public Properties fetchProperties(){
+        Properties properties = new Properties();
+        try {
+            File file = ResourceUtils.getFile("classpath:ColumnDefine.properties");
+            InputStream in = new FileInputStream(file);
+            comap.load(in);
+    		
+            variations =  DataUtils.getKeyValues(comap, "variation.", false);
+    		
+    		try {
+    			totalrowGenerated = Integer.parseInt((String)comap.get("totalrow"));
+    		} catch (NumberFormatException e) {
+    		}
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+        return properties;
+    }	
 	
 	public static void main(String[] args) {
 		String genpath = "/var/log/generated";

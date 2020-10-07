@@ -31,6 +31,7 @@ public class BarcodeController {
 		return new ResponseEntity<>(BarbecueBarcodeGenerator.generateEAN13BarcodeImage(barcode),HttpStatus.OK);
 	}
 	
+	//@PathVariable Optional<Integer> qrcode
 
     @GetMapping(value = "/qrgen/{qrcode}", produces = MediaType.IMAGE_PNG_VALUE)
     public ResponseEntity<BufferedImage> qrgen(@PathVariable("qrcode") String qrcode) throws Exception {
