@@ -10,6 +10,7 @@ package com.rnctech.nrdata.dbdata;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,7 +55,7 @@ public class DBDataFactory {
 	
 	static{
 		try {
-			comap.load(DBDataFactory.class.getResourceAsStream("ColumnDefine.properties"));		    
+			comap.load(new FileInputStream(new File("ColumnDefine.properties")));		    
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

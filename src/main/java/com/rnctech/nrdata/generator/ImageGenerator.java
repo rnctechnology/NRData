@@ -33,7 +33,7 @@ public class ImageGenerator {
 	
 	
 	
-	@PostConstruct
+	//@PostConstruct
 	protected BufferedImage initTempateImg() throws IOException {
 		File tmpf = new File("templates/bfb.jpg");
 		ti = ImageIO.read(tmpf);
