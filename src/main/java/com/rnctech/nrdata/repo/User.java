@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * @contributor zilin
@@ -17,8 +18,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
+@Document(collection = "users")
 public class User extends JobBase {
 
+	public static final String SEQUENCE_NAME = "user_sequence"; 
+	
 	@Column(name = "name")
 	String name;
 	

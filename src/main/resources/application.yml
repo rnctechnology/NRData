@@ -4,6 +4,9 @@ server:
     contextPath: /nrdata
 
 spring:
+  data:
+    mongodb
+      uri: mongodb://localhost:27017/nrdata
   redis:
     host: 127.0.0.1
     port: 6379
